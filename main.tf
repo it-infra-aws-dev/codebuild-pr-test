@@ -83,13 +83,8 @@ phases:
       - cd /tmp && curl -o terraform.zip https://releases.hashicorp.com/terraform/${var.terraform_version}/terraform_${var.terraform_version}_linux_amd64.zip && echo "${var.terraform_sha256} terraform.zip" | sha256sum -c --quiet && unzip terraform.zip && mv terraform /usr/bin
   build:
     commands:
-      - env
-      - pwd
-      - ls $CODEBUILD_GOPATH
-      - ls $CODEBUILD_SRC_DIR
+      - cd $CODEBUILD_SRC_DIR
       - terraform fmt -check
-      - echo $?
-      - (exit 3)
 SPEC
   }
 
