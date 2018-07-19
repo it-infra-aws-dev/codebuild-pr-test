@@ -74,6 +74,17 @@ resource "aws_codebuild_project" "project" {
     type            = "GITHUB"
     location        = "https://github.com/gibbster/codebuild-pr-test.git"
     git_clone_depth = 1
+
+    buildspec = <<SPEC
+version: 0.2
+phases:
+  install:
+    commands:
+      - cd /tmp && curl -o terraform.zip https://releases.hashicorp.com/terraform/${var.terraform_version}/terraform_${var.terraform_version}_linux_amd64.zip && echo "${var.terraform_sha256} terraform.zip" | sha256sum -c --quiet && unzip terraform.zip && mv terraform /usr/bin
+  build:
+    commands:
+      - terraform fmt -check
+SPEC
   }
 
   service_role = "${aws_iam_role.example.arn}"
