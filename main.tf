@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-west-2"
+  region  = "us-west-2"
   profile = "lab"
 }
 
@@ -23,7 +23,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "example" {
-  role        = "${aws_iam_role.example.name}"
+  role = "${aws_iam_role.example.name}"
 
   policy = <<POLICY
 {
@@ -67,7 +67,7 @@ resource "aws_codebuild_project" "project" {
     type         = "LINUX_CONTAINER"
   }
 
-  name = "test_github_pr_project"
+  name          = "test_github_pr_project"
   badge_enabled = true
 
   source {
@@ -94,4 +94,3 @@ SPEC
 resource "aws_codebuild_webhook" "example" {
   project_name = "${aws_codebuild_project.project.name}"
 }
-
