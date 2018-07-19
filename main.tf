@@ -1,5 +1,6 @@
 provider "aws" {
   region = "us-west-2"
+  profile = "lab"
 }
 
 resource "aws_iam_role" "example" {
@@ -67,6 +68,7 @@ resource "aws_codebuild_project" "project" {
   }
 
   name = "test_github_pr_project"
+  badge_enabled = true
 
   source {
     type            = "GITHUB"
