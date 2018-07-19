@@ -87,6 +87,7 @@ phases:
       - env
       - git status
       - git log
+      - cat README.md
       - terraform fmt -check
 SPEC
   }
