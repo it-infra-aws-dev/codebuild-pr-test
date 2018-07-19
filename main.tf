@@ -73,7 +73,7 @@ resource "aws_codebuild_project" "project" {
   source {
     type            = "GITHUB"
     location        = "https://github.com/gibbster/codebuild-pr-test.git"
-    git_clone_depth = 1
+    git_clone_depth = "25"
 
     buildspec = <<SPEC
 version: 0.2
