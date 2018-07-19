@@ -85,7 +85,8 @@ phases:
     commands:
       - env
       - pwd
-      - ls
+      - ls $CODEBUILD_GOPATH
+      - ls $CODEBUILD_SRC_DIR
       - terraform fmt -check
       - echo $?
       - (exit 3)
