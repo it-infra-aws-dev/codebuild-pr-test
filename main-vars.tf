@@ -1,5 +1,3 @@
-variable "terraform_version" {
-}
+variable "terraform_version" {}
 
-variable "terraform_sha256" {
-}
+variable "terraform_sha256" {}

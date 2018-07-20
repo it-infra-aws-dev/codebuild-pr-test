@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-west-2"
+  region  = "us-west-2"
   profile = "lab"
 }
 
@@ -23,7 +23,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "example" {
-  role        = "${aws_iam_role.example.name}"
+  role = "${aws_iam_role.example.name}"
 
   policy = <<POLICY
 {
@@ -67,13 +67,13 @@ resource "aws_codebuild_project" "project" {
     type         = "LINUX_CONTAINER"
   }
 
-  name = "test_github_pr_project"
+  name          = "test_github_pr_project"
   badge_enabled = true
 
   source {
     type            = "GITHUB"
     location        = "https://github.com/gibbster/codebuild-pr-test.git"
-    git_clone_depth = 1
+    git_clone_depth = "25"
 
     buildspec = <<SPEC
 version: 0.2
@@ -83,7 +83,12 @@ phases:
       - cd /tmp && curl -o terraform.zip https://releases.hashicorp.com/terraform/${var.terraform_version}/terraform_${var.terraform_version}_linux_amd64.zip && echo "${var.terraform_sha256} terraform.zip" | sha256sum -c --quiet && unzip terraform.zip && mv terraform /usr/bin
   build:
     commands:
-      - (exit 3)
+      - cd $CODEBUILD_SRC_DIR
+      - env
+      - git status
+      - git log
+      - cat README.md
+      - terraform fmt -check
 SPEC
   }
 
@@ -93,4 +98,3 @@ SPEC
 resource "aws_codebuild_webhook" "example" {
   project_name = "${aws_codebuild_project.project.name}"
 }
-
